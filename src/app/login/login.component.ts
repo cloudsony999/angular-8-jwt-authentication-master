@@ -13,6 +13,8 @@ export class LoginComponent implements OnInit {
   isLoginFailed = false;
   errorMessage = '';
   roles: string[] = [];
+  jwt: string = '';
+  userName: string = '';
 
   constructor(private authService: AuthService, private tokenStorage: TokenStorageService) { }
 
@@ -26,17 +28,32 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     this.authService.login(this.form).subscribe(
       data => {
-        this.tokenStorage.saveToken(data.accessToken);
-        this.tokenStorage.saveUser(data);
+        // this.tokenStorage.saveToken(data.accessToken);
+        // this.tokenStorage.saveUser(data);
 
-        this.isLoginFailed = false;
-        this.isLoggedIn = true;
-        this.roles = this.tokenStorage.getUser().roles;
-        this.reloadPage();
+        // this.isLoginFailed = false;
+        // this.isLoggedIn = true;
+        // this.roles = this.tokenStorage.getUser().roles;
+        // this.reloadPage();
       },
       err => {
-        this.errorMessage = err.error.message;
-        this.isLoginFailed = true;
+        // this.errorMessage = err.error.message;
+        // this.isLoginFailed = true;
+        console.log(err);
+
+        if (err.error.message === 'User email not found.') {
+          this.errorMessage = err.error.message;
+          this.isLoginFailed = true;
+        } else {
+          this.isLoggedIn = true;
+          this.isLoginFailed = false;
+
+          this.userName = 'amitava'
+          this.jwt = err.error.text;
+          this.tokenStorage.saveToken(this.jwt);
+          console.log('Here is the JWT:', this.jwt);
+          this.reloadPage();
+        }
       }
     );
   }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TokenStorageService } from '../_services/token-storage.service';
 import { UserService } from '../_services/user.service';
 
 @Component({
@@ -9,7 +10,10 @@ import { UserService } from '../_services/user.service';
 export class HomeComponent implements OnInit {
   content: string;
 
-  constructor(private userService: UserService) { }
+  constructor(
+    private userService: UserService,
+    private _tokenStorageService: TokenStorageService
+  ) { }
 
   ngOnInit() {
     this.userService.getPublicContent().subscribe(

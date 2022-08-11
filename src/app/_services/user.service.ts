@@ -12,7 +12,8 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   getPublicContent(): Observable<any> {
-    return this.http.get(API_URL + 'all', { responseType: 'text' });
+    // return this.http.get(API_URL + 'all', { responseType: 'text' });
+    return this.http.get('http://localhost:8888/user/message', { responseType: 'text' });
   }
 
   getUserBoard(): Observable<any> {
