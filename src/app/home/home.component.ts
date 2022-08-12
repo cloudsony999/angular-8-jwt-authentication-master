@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit {
     this.userService.getPublicContent().subscribe(
       data => {
         this.content = data;
+        console.log(this._tokenStorageService.getToken());
       },
       err => {
         this.content = JSON.parse(err.error).message;
